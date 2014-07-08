@@ -35,7 +35,7 @@ function giftgrid_func(){
     <script language="javascript" type="text/javascript">
     <!--
         // These would come from a database
-        var pendingGifts = [1, 25, 40, 41];
+        var pendingGifts = [10, 20, 30];
         var confirmedGifts = [5, 50, 55, 75];
  
         // Other global variables
@@ -119,7 +119,7 @@ function giftgrid_func(){
 
         function donateClick(){
             var postID = "<?php the_ID(); ?>";
-            var giftString = chosenGifts.join();
+            var giftString = chosenGifts.concat(pendingGifts).sort(function(a,b){return a - b}).join();
             jQuery.ajax({
                 type: 'post',
                 url: 'wp-admin/admin-ajax.php',
