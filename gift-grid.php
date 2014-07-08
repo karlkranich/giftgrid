@@ -9,6 +9,14 @@ Author URI: http://karl.kranich.org
 
 include 'giftgrid-options.php';  // adds the admin dashboard settings page to set acct number
 
+add_action('wp_ajax_giftgrid_save', 'giftgrid_save_callback');
+add_action('wp_ajax_nopriv_giftgrid_save', 'giftgrid_save_callback');
+
+function giftgrid_save_callback() {
+    update_post_meta($_POST['post-id'],"pending-gifts",$_POST['gifts']);
+    die();
+}
+
 function giftgrid_func(){
     // Register the styles
     wp_register_style('grid-styles', plugins_url('/css/grid-styles.css', __FILE__ ), false, null);
@@ -16,7 +24,6 @@ function giftgrid_func(){
 
 	ob_start();
 	?>
-    <?php update_post_meta(get_the_ID(),"grid-data","goodbye"); ?>
     <div id="total-div">
         <p>We have raised: $0<p>
     </div>
@@ -111,9 +118,17 @@ function giftgrid_func(){
         }
 
         function donateClick(){
-            var serialData = JSON.stringify(chosenGifts);
-            console.log(serialData);
-            <?php update_post_meta(get_the_ID(),"pending-gifts","No click"); ?>
+            var postID = "<?php the_ID(); ?>";
+            var giftString = chosenGifts.join();
+            jQuery.ajax({
+                type: 'post',
+                url: 'wp-admin/admin-ajax.php',
+                data: {
+                    'action': 'giftgrid_save',
+                    'post-id': postID,
+                    'gifts': giftString
+                }
+            });
         }
     // -->
     </script>
