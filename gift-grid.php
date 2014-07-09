@@ -53,6 +53,9 @@ function giftgrid_func(){
 
         // Write out the total so far
         var grandTotal = eval(allGifts.join('+'));
+        if (grandTotal === undefined) {
+            grandTotal = 0;
+        }
         totalDiv.innerHTML = "<p>We have raised: $" + grandTotal + "<p>";
 
         // Attach click function to Donate button
