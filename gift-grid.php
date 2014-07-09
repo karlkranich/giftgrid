@@ -122,11 +122,12 @@ function giftgrid_func(){
         }
 
         function donateClick(){
-            var postID = "<?php the_ID(); ?>";
+            var ajaxURL = "<?php echo get_admin_url(),'admin-ajax.php';?>";
+            var postID = "<?php the_ID();?>";
             var giftString = chosenGifts.concat(pendingGifts).sort(function(a,b){return a - b}).join();
             jQuery.ajax({
                 type: 'post',
-                url: 'wp-admin/admin-ajax.php',
+                url: ajaxURL,
                 data: {
                     'action': 'giftgrid_save',
                     'post-id': postID,
