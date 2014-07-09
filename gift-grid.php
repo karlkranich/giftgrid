@@ -22,6 +22,10 @@ function giftgrid_func(){
     wp_register_style('grid-styles', plugins_url('/css/grid-styles.css', __FILE__ ), false, null);
     wp_enqueue_style('grid-styles');
 
+    // Read gifts from Wordpress custom fields
+    $confirmed_gifts = get_post_meta(get_the_ID(),'confirmed-gifts',true);
+    $pending_gifts = get_post_meta(get_the_ID(),'pending-gifts',true);
+
 	ob_start();
 	?>
     <div id="total-div">
@@ -34,9 +38,9 @@ function giftgrid_func(){
     </div>
     <script language="javascript" type="text/javascript">
     <!--
-        // These would come from a database
-        var pendingGifts = [10, 20, 30];
-        var confirmedGifts = [5, 50, 55, 75];
+        // Load gifts from PHP variables
+        var pendingGifts = [<?php echo $pending_gifts; ?>];
+        var confirmedGifts = [<?php echo $confirmed_gifts; ?>];
  
         // Other global variables
         var allGifts = pendingGifts.concat(confirmedGifts);
