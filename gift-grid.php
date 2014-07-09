@@ -26,6 +26,10 @@ function giftgrid_func(){
     $confirmed_gifts = get_post_meta(get_the_ID(),'confirmed-gifts',true);
     $pending_gifts = get_post_meta(get_the_ID(),'pending-gifts',true);
 
+    // Get staff account number from plugin options
+    $options = get_option('giftgrid_plugin_options');
+    $acct_num = $options['acctnum'];
+
 	ob_start();
 	?>
     <div id="total-div">
@@ -48,6 +52,7 @@ function giftgrid_func(){
         var chosenGifts = [];
         var chosenDiv = document.getElementById("total-chosen-div");
         var donateDiv = document.getElementById("donate-div");
+        var totalChosen;
         var lastClicked;
         var grid = clickableGrid(10,10,myClick);
 
@@ -98,9 +103,10 @@ function giftgrid_func(){
                 // console.log(chosenGifts);
                 var newText = '';
                 if (chosenGifts.length == 1) {
-                    newText = "<p>My gift: $" + chosenGifts[0] + "<p>";
+                    totalChosen = chosenGifts[0];
+                    newText = "<p>My gift: $" + totalChosen + "<p>";
                 } else {
-                    var totalChosen = eval(chosenGifts.join('+'));
+                    totalChosen = eval(chosenGifts.join('+'));
                     newText = "<p>My gift: $" + chosenGifts.join(' + $') + " = $" + totalChosen + "<p>";
                 }
                 chosenDiv.innerHTML = newText;
@@ -115,9 +121,10 @@ function giftgrid_func(){
                     newText = "<p>My gift: $0<p>";
                     donateDiv.style.display = 'none';
                 } else if (chosenGifts.length == 1) {
-                    newText = "<p>My gift: $" + chosenGifts[0] + "<p>";
+                    totalChosen = chosenGifts[0];
+                    newText = "<p>My gift: $" + totalChosen + "<p>";
                 } else {
-                    var totalChosen = eval(chosenGifts.join('+'));
+                    totalChosen = eval(chosenGifts.join('+'));
                     newText = "<p>My gift: $" + chosenGifts.join(' + $') + " = $" + totalChosen + "<p>";
                 }
                 chosenDiv.innerHTML = newText;
@@ -128,6 +135,9 @@ function giftgrid_func(){
             var ajaxURL = "<?php echo get_admin_url(),'admin-ajax.php';?>";
             var postID = "<?php the_ID();?>";
             var giftString = chosenGifts.concat(pendingGifts).sort(function(a,b){return a - b}).join();
+            var acctNum = "<?php echo $acct_num?>";
+            var checkoutURL = "https://give.cru.org/give/EasyCheckout1/process/singleGift?Amount=" + 
+                totalChosen + "&Frequency=X&DrawDay=&Desig=" + acctNum;
             jQuery.ajax({
                 type: 'post',
                 url: ajaxURL,
@@ -135,6 +145,9 @@ function giftgrid_func(){
                     'action': 'giftgrid_save',
                     'post-id': postID,
                     'gifts': giftString
+                },
+                success: function(){
+                    window.location = checkoutURL;
                 }
             });
         }
