@@ -29,6 +29,7 @@ function giftgrid_func(){
     // Get staff account number from plugin options
     $options = get_option('giftgrid_plugin_options');
     $acct_num = $options['acctnum'];
+    $redir_URL = $options['URL'];
 
 	ob_start();
 	?>
@@ -136,8 +137,9 @@ function giftgrid_func(){
             var postID = "<?php the_ID();?>";
             var giftString = chosenGifts.concat(pendingGifts).sort(function(a,b){return a - b}).join();
             var acctNum = "<?php echo $acct_num?>";
+            var redirURL = "<?php echo $redir_URL?>";
             var checkoutURL = "https://give.cru.org/give/EasyCheckout1/process/singleGift?Amount=" + 
-                totalChosen + "&Frequency=X&DrawDay=&Desig=" + acctNum;
+                totalChosen + "&Frequency=X&DrawDay=&Desig=" + acctNum + "&URL=" + redirURL;
             jQuery.ajax({
                 type: 'post',
                 url: ajaxURL,
