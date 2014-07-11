@@ -40,18 +40,20 @@ function giftgrid_func(){
 
 	ob_start();
 	?>
-    <div id="total-div">
-        <p>* Please enable scripting in your browser to participate in this campaign *<p>
-    </div>
-    <div id="grid-div"></div>
-    <div id="total-chosen-div"></div>
-    <div id="donor-name-div"></div>
-    <div id="donate-div">
-        <div id="donor-div">
-            Name: <input type="text" name="donorname" id="donorname">
+    <div id="giftgrid">
+        <div id="total-div">
+            <p>* Please enable scripting in your browser to participate in this campaign *<p>
         </div>
-        <div id="donate-button-div">
-            <a href="#" id="donate-button" >Donate</a>
+        <div id="grid-div"></div>
+        <div id="total-chosen-div"></div>
+        <div id="donor-name-div"></div>
+        <div id="donate-div">
+            <div id="donor-div">
+                Name: <input type="text" name="donorname" id="donorname">
+            </div>
+            <div id="donate-button-div">
+                <a href="#" id="donate-button" >Donate</a>
+            </div>
         </div>
     </div>
     <script language="javascript" type="text/javascript">
