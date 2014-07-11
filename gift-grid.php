@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
 Plugin Name: Gift Grid Display
 Description: Plugin for displaying a grid from which gift amounts can be chosen
@@ -53,6 +53,7 @@ function giftgrid_func(){
             </div>
             <div id="donate-button-div">
                 <a href="#" id="donate-button" >Donate</a>
+                <p>This will send you to my ministry's online giving page.</p>
             </div>
         </div>
     </div>
@@ -61,7 +62,7 @@ function giftgrid_func(){
         // Load gifts from PHP variables
         var pendingGifts = [<?php echo $pending_gifts; ?>];
         var confirmedGifts = [<?php echo $confirmed_gifts; ?>];
- 
+
         // Other global variables
         var allGifts = pendingGifts.concat(confirmedGifts);
         var totalDiv = document.getElementById("total-div");
@@ -154,7 +155,7 @@ function giftgrid_func(){
             var acctNum = "<?php echo $acct_num?>";
             var email = "<?php echo $email?>";
             var redirURL = "<?php echo $redir_URL?>";
-            var checkoutURL = "https://give.cru.org/give/EasyCheckout1/process/singleGift?Amount=" + 
+            var checkoutURL = "https://give.cru.org/give/EasyCheckout1/process/singleGift?Amount=" +
                 totalChosen + "&Frequency=X&DrawDay=&Desig=" + acctNum + "&URL=" + redirURL;
             jQuery.ajax({
                 type: 'post',
