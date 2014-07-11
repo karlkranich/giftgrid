@@ -13,12 +13,13 @@ add_action('wp_ajax_giftgrid_save', 'giftgrid_save_callback');
 add_action('wp_ajax_nopriv_giftgrid_save', 'giftgrid_save_callback');
 
 function giftgrid_save_callback() {
-    update_post_meta($_POST['post-id'],"pending-gifts",$_POST['gifts']);
+    $current_gifts = get_post_meta($_POST['post-id'],'pending-gifts');
+    $current_gifts = join(',', $current_gifts) . ',' . $_POST['gifts'];
+    update_post_meta($_POST['post-id'],'pending-gifts',$current_gifts);
     $rightnow = date("F j, Y, g:i a T");
     $subject = 'Giftgrid submission';
     $message = "You got a submission from your giftgrid page! \nDate: $rightnow \nDonor: {$_POST['donorname']} \nAmount(s): {$_POST['gifts']}";
     wp_mail($_POST['email'], $subject, $message);
-    update_post_meta($_POST['post-id'],"message",$message);
     die();
 }
 
@@ -147,7 +148,7 @@ function giftgrid_func(){
         function donateClick(){
             var ajaxURL = "<?php echo get_admin_url(),'admin-ajax.php';?>";
             var postID = "<?php the_ID();?>";
-            var giftString = chosenGifts.concat(pendingGifts).sort(function(a,b){return a - b}).join();
+            var giftString = chosenGifts.sort(function(a,b){return a - b}).join();
             var acctNum = "<?php echo $acct_num?>";
             var email = "<?php echo $email?>";
             var redirURL = "<?php echo $redir_URL?>";
