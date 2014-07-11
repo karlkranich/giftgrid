@@ -24,7 +24,6 @@ function giftgrid_save_callback() {
     die();
 }
 
-// this function is tied to [giftgrid] shortcode
 function giftgrid_func(){
     // Register the styles
     wp_register_style('grid-styles', plugins_url('/css/grid-styles.css', __FILE__ ), false, null);
