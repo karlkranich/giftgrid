@@ -12,6 +12,7 @@ include 'giftgrid-options.php';  // adds the admin dashboard settings page to se
 add_action('wp_ajax_giftgrid_save', 'giftgrid_save_callback');
 add_action('wp_ajax_nopriv_giftgrid_save', 'giftgrid_save_callback');
 
+// Called by ajax request and receives POST data
 function giftgrid_save_callback() {
     $current_gifts = get_post_meta($_POST['post-id'],'pending-gifts');
     $current_gifts = join(',', $current_gifts) . ',' . $_POST['gifts'];
